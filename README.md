@@ -1,6 +1,6 @@
 # Silence Remover
 
-A Python script that removes silent gaps from MP3 files.
+A Python script that removes silent gaps from MP3 files or folders containing MP3 files.
 
 ## Prerequisites
 
@@ -20,22 +20,27 @@ A Python script that removes silent gaps from MP3 files.
 
 ## Usage
 
-Run the script:
+### Processing a single file
 
 ```bash
 ./run_silence_remover.sh input.mp3 output.mp3
 ```
 
-Optional parameters:
-- `--min_silence_len`: Minimum silence length in ms (default: 1000)
+### Processing a folder of MP3 files
+
+```bash
+./run_silence_remover.sh input_folder/ output_folder/
+```
+
+### Optional parameters
+
+- `--min_silence_len`: Minimum length of silence (in ms) to be removed (default: 1000)
 - `--silence_thresh`: Silence threshold in dB (default: -50)
 
-Example:
+Example with optional parameters:
 ```bash
 ./run_silence_remover.sh input.mp3 output.mp3 --min_silence_len 500 --silence_thresh -40
 ```
-
-The script automatically sets up a virtual environment and installs dependencies on first run.
 
 ## Making the script globally accessible
 
@@ -57,6 +62,12 @@ Now you can use `silence-remover` from any directory:
 silence-remover input.mp3 output.mp3
 ```
 
+or
+
+```bash
+silence-remover input_folder/ output_folder/
+```
+
 ## Troubleshooting
 
 - Ensure Python 3.7+ and FFmpeg are installed and accessible from the terminal.
@@ -64,4 +75,4 @@ silence-remover input.mp3 output.mp3
 
 ## License
 
-MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

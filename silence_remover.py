@@ -1,10 +1,29 @@
 #!/usr/bin/env python3
 
 import argparse
+import os
+import sys
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
 
-def remove_silence(input_file, output_file, min_silence_len=1000, silence_thresh=-50):
+def remove_silence(input_path, output_path, min_silence_len=1000, silence_thresh=-50):
+    if os.path.isfile(input_path):
+        process_file(input_path, output_path, min_silence_len, silence_thresh)
+    elif os.path.isdir(input_path):
+        if not os.path.exists(output_path):
+            os.makedirs(output_path)
+        for filename in os.listdir(input_path):
+            if filename.endswith(".mp3"):
+                input_file = os.path.join(input_path, filename)
+                output_file = os.path.join(output_path, filename)
+                process_file(input_file, output_file, min_silence_len, silence_thresh)
+    else:
+        print(f"Error: {input_path} is not a valid file or directory", file=sys.stderr)
+
+def process_file(input_file, output_file, min_silence_len, silence_thresh):
+    print(f"Processing {input_file}")
+    sys.stdout.flush()  # Ensure the message is printed immediately
+    
     # Load the audio file
     audio = AudioSegment.from_mp3(input_file)
     
@@ -24,13 +43,13 @@ def remove_silence(input_file, output_file, min_silence_len=1000, silence_thresh
     output_audio.export(output_file, format="mp3")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Remove silence from MP3 files")
-    parser.add_argument("input_file", help="Path to the input MP3 file")
-    parser.add_argument("output_file", help="Path to the output MP3 file")
+    parser = argparse.ArgumentParser(description="Remove silence from MP3 files or folders")
+    parser.add_argument("input_path", help="Path to the input MP3 file or folder")
+    parser.add_argument("output_path", help="Path to the output MP3 file or folder")
     parser.add_argument("--min_silence_len", type=int, default=1000, help="Minimum length of silence (in ms) to be removed")
     parser.add_argument("--silence_thresh", type=int, default=-50, help="Silence threshold in dB")
     
     args = parser.parse_args()
     
-    remove_silence(args.input_file, args.output_file, args.min_silence_len, args.silence_thresh)
-    print(f"Processed {args.input_file} and saved result to {args.output_file}")
+    remove_silence(args.input_path, args.output_path, args.min_silence_len, args.silence_thresh)
+    print("Processing complete.")
