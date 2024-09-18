@@ -37,6 +37,26 @@ Example:
 
 The script automatically sets up a virtual environment and installs dependencies on first run.
 
+## Making the script globally accessible
+
+To run the script from any directory, add this line to your `~/.zshrc` or `~/.bashrc`:
+
+```bash
+alias silence-remover='/path/to/your/run_silence_remover.sh'
+```
+
+Replace `/path/to/your/` with the actual path to the script. Then reload your shell configuration:
+
+```bash
+source ~/.zshrc  # or ~/.bashrc
+```
+
+Now you can use `silence-remover` from any directory:
+
+```bash
+silence-remover input.mp3 output.mp3
+```
+
 ## Troubleshooting
 
 - Ensure Python 3.7+ and FFmpeg are installed and accessible from the terminal.
