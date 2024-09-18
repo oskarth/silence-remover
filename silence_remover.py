@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import argparse
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
